@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family:bidena; ;
+    src: url("../src/assets/fonts/Bidenatrial.ttf");
+}
+
+@font-face {
+    font-family: basker;
+    src: url("../src/assets/fonts/Baskervville-Regular.ttf");
+}
+@font-face {
+    font-family: weds;
+    src: url("../src/assets/fonts/Wedding-Accesories.ttf");
+}
+@font-face {
+    font-family: nav;
+    src: url("../src/assets/fonts/Awesome.ttf");
+}
+
+@font-face {
+    font-family: foot;
+    src: url("../src/assets/fonts/Milker.otf");
+}
+@font-face {
+    font-family: title;
+    src: url("../src/assets/fonts/Hasly.otf");
+}
+@font-face {
+    font-family: font ;
+    src: url("../src/assets/fonts/Footlight.ttf");
+}
+@font-face {
+    font-family: invite ;
+    src: url("../src/assets/fonts/PerfectoCalligraphy.ttf");
+}
+
+@font-face {
+    font-family: choco ;
+    src: url("../src/assets/fonts/Chocolate.ttf");
+}
+
+@font-face {
+    font-family: chopin ;
+    src: url("../src/assets/fonts/ChopinScript.ttf");
+}
+
+
+
+@theme {
+  --font-family: "Covered By Your Grace", cursive;
+  --font-heading:"Style Script", cursive; 
+  --font-head:bidena;
+  --font-para:basker;
+  --font-date:weds;
+  --font-nav:nav;
+  --font-foot:foot;
+  --font-title:title;
+  --font-font:font;
+  --font-invite:invite;
+  --font-choco:choco;
+  --font-chopin:chopin;
+}
+
+
