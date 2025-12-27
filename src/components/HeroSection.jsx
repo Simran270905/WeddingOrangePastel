@@ -3,6 +3,51 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import HeroImage from "../assets/image/love1.jpg";
 
+const heroConfig = {
+  id: "hero-omkar-harini-1",
+  heroImage: HeroImage,
+  heroAlt: "Omkar & Harini",
+  titleTop: "With Great Joy",
+  introLine: "We invite you to celebrate the union of",
+  coupleNames: "Omkar & Harini",
+  dateLine: "Saturday, 10th February 2026",
+  venueLine: "Rambagh Palace, Jaipur, India",
+  scrollText: "Scroll to explore",
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
+const coupleNameVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      delay: 0.8,
+    },
+  },
+};
+
 const HeroSection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -16,45 +61,12 @@ const HeroSection = () => {
   const { scrollYProgress } = useScroll();
   const yBackground = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  };
-
-  const coupleNameVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 1,
-        ease: [0.22, 1, 0.36, 1],
-        delay: 0.8,
-      },
-    },
-  };
-
   return (
     <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden min-h-[100vh]">
       {/* Background Hero Image */}
       <motion.img
-        src={HeroImage}
-        alt="Hero"
+        src={heroConfig.heroImage}
+        alt={heroConfig.heroAlt}
         className="absolute inset-0 w-full h-full object-cover"
         style={{ y: yBackground }}
         initial={{ opacity: 0.3 }}
@@ -97,29 +109,29 @@ const HeroSection = () => {
           variants={itemVariants}
           className="font-choco font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-orange-600 mb-2 tracking-wide"
         >
-          With Great Joy
+          {heroConfig.titleTop}
         </motion.h1>
 
         <motion.p
           variants={itemVariants}
           className="font-para text-sm sm:text-base md:text-lg lg:text-xl text-orange-700 mb-4 px-2 leading-relaxed"
         >
-          We invite you to celebrate the union of
+          {heroConfig.introLine}
         </motion.p>
 
         <motion.p
           variants={coupleNameVariants}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-head font-bold italic bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-pink-400 to-yellow-400 mb-6 px-2"
         >
-          Omkar & Harini
+          {heroConfig.coupleNames}
         </motion.p>
 
         <motion.div variants={itemVariants} className="space-y-2 mb-8">
           <p className="text-sm sm:text-base md:text-lg text-orange-700 font-medium">
-            Saturday, 10th February 2026
+            {heroConfig.dateLine}
           </p>
           <p className="text-sm sm:text-base md:text-lg text-orange-700 font-medium">
-            Rambagh Palace, Jaipur, India
+            {heroConfig.venueLine}
           </p>
         </motion.div>
 
@@ -131,7 +143,7 @@ const HeroSection = () => {
           transition={{ delay: 1.5, duration: 0.8 }}
         >
           <span className="text-xs sm:text-sm text-orange-600 font-medium">
-            Scroll to explore
+            {heroConfig.scrollText}
           </span>
           <motion.div
             animate={{ y: [0, 12, 0], opacity: [0.7, 1, 0.7] }}

@@ -10,22 +10,51 @@ import Gallery6 from "../assets/image/love2.jpg";
 import Gallery7 from "../assets/image/love1.jpg";
 import Gallery8 from "../assets/image/love2.jpg";
 
-const images = [
-  Gallery1,
-  Gallery2,
-  Gallery3,
-  Gallery4,
-  Gallery5,
-  Gallery6,
-  Gallery7,
-  Gallery8,
-];
+const photoGalleryConfig = {
+  id: "gallery-omkar-harini-1",
+  title: "Photo Gallery",
+  subtitle:
+    "Cherished moments from our journey together, captured in time",
+  images: [
+    { src: Gallery1, alt: "Gallery 1" },
+    { src: Gallery2, alt: "Gallery 2" },
+    { src: Gallery3, alt: "Gallery 3" },
+    { src: Gallery4, alt: "Gallery 4" },
+    { src: Gallery5, alt: "Gallery 5" },
+    { src: Gallery6, alt: "Gallery 6" },
+    { src: Gallery7, alt: "Gallery 7" },
+    { src: Gallery8, alt: "Gallery 8" },
+  ],
+  viewMoreLabel: "View More Moments",
+  maxDesktopImages: 6,
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const PhotoGallery = () => {
   const [showAll, setShowAll] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false); // mobile flag
+  const [isMobile, setIsMobile] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -39,32 +68,14 @@ const PhotoGallery = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // If mobile OR showAll → show all images, otherwise first 6
-  const displayedImages = showAll || isMobile ? images : images.slice(0, 6);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
+  const allImages = photoGalleryConfig.images;
+  const displayedImages =
+    showAll || isMobile
+      ? allImages
+      : allImages.slice(0, photoGalleryConfig.maxDesktopImages);
 
   const handleImageClick = (img, index) => {
-    setSelectedImg(img);
+    setSelectedImg(img.src);
     setSelectedIndex(index);
   };
 
@@ -110,7 +121,7 @@ const PhotoGallery = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-choco bg-gradient-to-r from-orange-700 via-rose-600 to-orange-600 bg-clip-text text-transparent font-light tracking-wide mb-4">
-            Photo Gallery
+            {photoGalleryConfig.title}
           </h2>
           <motion.div
             className="mx-auto w-24 sm:w-32 md:w-40 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"
@@ -119,7 +130,7 @@ const PhotoGallery = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           />
           <p className="text-sm sm:text-base md:text-lg lg:text-xl font-para font-semibold text-orange-900 mt-4 sm:mt-6 max-w-2xl mx-auto leading-relaxed font-light">
-            Cherished moments from our journey together, captured in time
+            {photoGalleryConfig.subtitle}
           </p>
         </motion.div>
 
@@ -137,8 +148,8 @@ const PhotoGallery = () => {
               onClick={() => handleImageClick(img, idx)}
             >
               <motion.img
-                src={img}
-                alt={`Gallery ${idx + 1}`}
+                src={img.src}
+                alt={img.alt}
                 className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                 whileHover={{ scale: 1.1 }}
               />
@@ -167,32 +178,36 @@ const PhotoGallery = () => {
         </div>
 
         {/* View More button (desktop / tablet only) */}
-        {!showAll && images.length > 6 && !isMobile && (
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowAll(true)}
-              className="group relative px-8 sm:px-10 py-4 sm:py-4 bg-gradient-to-r from-orange-500 via-rose-500 to-orange-600 text-white font-serif font-medium text-base sm:text-lg rounded-3xl shadow-xl hover:shadow-2xl border-2 border-orange-400/50 backdrop-blur-sm transition-all duration-300 overflow-hidden"
+        {!showAll &&
+          allImages.length > photoGalleryConfig.maxDesktopImages &&
+          !isMobile && (
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
             >
-              <span className="relative z-10">View More Moments</span>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100"
-                transition={{ duration: 0.3 }}
-              />
-              <motion.div
-                className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-3xl -skew-x-12 opacity-0 group-hover:opacity-100 blur-xl"
-                animate={{ skewX: [-12, 0, 12] }}
-                transition={{ duration: 0.6, repeat: Infinity }}
-              />
-            </motion.button>
-          </motion.div>
-        )}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowAll(true)}
+                className="group relative px-8 sm:px-10 py-4 sm:py-4 bg-gradient-to-r from-orange-500 via-rose-500 to-orange-600 text-white font-serif font-medium text-base sm:text-lg rounded-3xl shadow-xl hover:shadow-2xl border-2 border-orange-400/50 backdrop-blur-sm transition-all duration-300 overflow-hidden"
+              >
+                <span className="relative z-10">
+                  {photoGalleryConfig.viewMoreLabel}
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100"
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.div
+                  className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-3xl -skew-x-12 opacity-0 group-hover:opacity-100 blur-xl"
+                  animate={{ skewX: [-12, 0, 12] }}
+                  transition={{ duration: 0.6, repeat: Infinity }}
+                />
+              </motion.button>
+            </motion.div>
+          )}
       </motion.div>
 
       {/* Lightbox */}
@@ -209,10 +224,10 @@ const PhotoGallery = () => {
           >
             {/* Navigation dots */}
             <div className="absolute top-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-              {images.map((_, idx) => (
+              {allImages.map((img, idx) => (
                 <motion.button
                   key={idx}
-                  onClick={() => handleImageClick(images[idx], idx)}
+                  onClick={() => handleImageClick(img, idx)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     idx === selectedIndex
                       ? "w-8 bg-white shadow-lg"
